@@ -24,7 +24,7 @@ namespace Projekt_OOP
             Console.WriteLine("Przykladowy tekst do nadpisania");
         }
     }
-    public class Film : Pozycja
+    public class Film : Pozycja, IWypisz
     {
         public string Rezyser { get; set; }
         public int Godziny { get; set; }
@@ -34,13 +34,17 @@ namespace Projekt_OOP
         {
             Tytul = tyt; Rok = rok; Rezyser = rez; Godziny = h; Minuty = min; Ocena = ocena;
         }
+        public Film(string tyt, int rok, int ocena)
+        {
+            Tytul = tyt; Rok = rok ; Ocena = ocena;
+        }
 
         public override void wypisz()
         {
             Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nRezyser: {Rezyser} \nCzas trwania {Godziny}h {Minuty}min\n Ocena : {Ocena}");
         }
     }
-    public class Ksiazka : Pozycja
+    public class Ksiazka : Pozycja, IWypisz
     {
         public string Autor { get; set; }
         public int Strony { get; set; }
@@ -48,6 +52,10 @@ namespace Projekt_OOP
         public Ksiazka(string tyt, int rok, string Autor, int str, int ocena)
         {
             Tytul = tyt; Rok = rok; this.Autor = Autor; Strony = str; Ocena = ocena;
+        }
+        public Ksiazka(string tyt, int ocena)
+        {
+            Tytul = tyt; Ocena = ocena;
         }
 
         public override void wypisz()
@@ -81,11 +89,17 @@ namespace Projekt_OOP
     }
     public static class Baza_Danych
     {
+        public static List<IWypisz> Wszystkie_Pozycje = new List<IWypisz>();
+        public static List<Pozycja> Pozycje = new List<Pozycja>();
         public static List<Uzytkownik> Uzytkownicy = new List<Uzytkownik>();
-        public static List<Ksiazka> Ksiazki = new List<Ksiazka>();
-        public static List<Film> Filmy = new List<Film>();
         public static Uzytkownik Zalogowany_Uzytkownik = null;
     }
+
+    public interface IWypisz
+    {
+        void wypisz();
+    }
+
     //Funkcje
     public static class Menu
     {
