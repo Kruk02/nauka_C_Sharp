@@ -1,0 +1,14 @@
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\bin\Debug\net8.0\Projekt_OOP.exe
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\bin\Debug\net8.0\Projekt_OOP.deps.json
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\bin\Debug\net8.0\Projekt_OOP.runtimeconfig.json
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\bin\Debug\net8.0\Projekt_OOP.dll
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\bin\Debug\net8.0\Projekt_OOP.pdb
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.AssemblyInfoInputs.cache
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.AssemblyInfo.cs
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.csproj.CoreCompileInputs.cache
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.dll
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\refint\Projekt_OOP.dll
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.pdb
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\Projekt_OOP.genruntimeconfig.cache
+C:\Users\krukg\source\repos\Projekt_OOP\Projekt_OOP\obj\Debug\net8.0\ref\Projekt_OOP.dll
