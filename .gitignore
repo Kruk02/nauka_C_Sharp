@@ -1,25 +1,45 @@
-﻿# User-specific files
-*.rsuser
-*.suo
+﻿## Pliki buildowane 
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+
+## Visual Studio cache i ustawienia użytkownika
+.vscode/
+.vs/
 *.user
+*.suo
 *.userosscache
 *.sln.docstates
 
-# Build results
-[Bb]in/
-[Oo]bj/
+## Backupy
+*.bak
+*.orig
 
-# VS Code workspace
-.vscode/
-
-# VS-specific folders
-.vs/
-
-# SQLite and local DBs
-*.sqlite
-*.sqlite-journal
-
-# Others
+## Logi i inne śmieci
 *.log
+
+## Pliki systemowe (Windows/macOS)
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+## Auto-generowane pliki
+*.dbmdl
+*.cache
+*.ide
+
+## Inne lokalne pliki
+*.swp
 *.tmp
-*.DS_Store
+*.old
+
+## Dotnet specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Rider/JetBrains
+.idea/
+*.sln.iml

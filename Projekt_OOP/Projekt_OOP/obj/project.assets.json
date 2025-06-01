@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\krukg\\source\\repos\\Projekt_OOP\\Projekt_OOP\\Projekt_OOP.csproj",
+      "projectUniqueName": "C:\\Users\\krukg\\source\\repos\\Kruk02\\nauka_C_Sharp\\Projekt_OOP\\Projekt_OOP\\Projekt_OOP.csproj",
       "projectName": "Projekt_OOP",
-      "projectPath": "C:\\Users\\krukg\\source\\repos\\Projekt_OOP\\Projekt_OOP\\Projekt_OOP.csproj",
+      "projectPath": "C:\\Users\\krukg\\source\\repos\\Kruk02\\nauka_C_Sharp\\Projekt_OOP\\Projekt_OOP\\Projekt_OOP.csproj",
       "packagesPath": "C:\\Users\\krukg\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\krukg\\source\\repos\\Projekt_OOP\\Projekt_OOP\\obj\\",
+      "outputPath": "C:\\Users\\krukg\\source\\repos\\Kruk02\\nauka_C_Sharp\\Projekt_OOP\\Projekt_OOP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
