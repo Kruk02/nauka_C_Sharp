@@ -30,7 +30,7 @@ namespace Projekt_OOP
     {
         public string Rezyser { get; set; } = "";
         public int Godziny { get; set; }
-        public int Minuty { get; set; }//czas trwania
+        public int Minuty { get; set; } 
         public string autor_Opini { get; set; } = "";
 
         public Film(string tyt, int rok, string rez, int h, int min, int ocena)
@@ -79,8 +79,6 @@ namespace Projekt_OOP
     {
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
-        public int Oceny { get; set; } //ilosc wystawionych ocen // dodac srednia ocen
-
 
         public Osoba()
         {
@@ -188,9 +186,9 @@ namespace Projekt_OOP
                 case 2:
                     Console.Clear();
                     Console.WriteLine("Wybrales logowanie !");
-                    Console.Write("Login : "); //czytanie loginu, dodac w clasie
+                    Console.Write("Login : ");
                     string login = Console.ReadLine();
-                    Console.Write("Haslo : "); //czytanie hasla, dodac w clasie
+                    Console.Write("Haslo : "); 
                     string haslo = Console.ReadLine();
                     Uzytkownik znaleziony = Baza_Danych.Uzytkownicy.Find(u => u.Login == login && u.Haslo == haslo);
                     if (znaleziony != null)
@@ -208,7 +206,7 @@ namespace Projekt_OOP
                     break;
             }
             Menu.pisz_Menu();
-        } //zrobione
+        } 
         public static void pisz_Poczatek()
         {
             Console.Clear();
@@ -219,14 +217,14 @@ namespace Projekt_OOP
             Console.WriteLine("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@");
             Console.WriteLine("|                                             |");
             Console.WriteLine("|    System do oceniania filmow i ksiazek !   |");
-            Console.WriteLine("|    Oceniaj, pisz komentarze i przegladaj    |");//wyrownac pozniej ten tekst
-            Console.WriteLine("|        wpisy innych uzytkownikow           |");
+            Console.WriteLine("|    Oceniaj, pisz komentarze i przegladaj    |");
+            Console.WriteLine("|         wpisy innych uzytkownikow           |");
             Console.WriteLine("|                                             |");
             Console.WriteLine("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@");
             Console.WriteLine("\nWcisnij dowolny klawisz by kontynuowac...");
             Console.ReadKey();
             pisz_Menu();
-        } //zrobione, mozna lepiej
+        } 
         public static void pisz_Menu()
         {
             int wybor;
@@ -234,9 +232,11 @@ namespace Projekt_OOP
             {
                 Console.Clear();
                 Console.WriteLine($"zalogowany uzytkownik : {Baza_Danych.Zalogowany_Uzytkownik?.Login ?? "brak"}");
-                Console.WriteLine("[1] Zobacz tablice"); //wygenerowane wpisy (z 10 gotowych i random+switch+wyswietlanie ich pod soba)
-                Console.WriteLine("[2] Dodaj wpis");
+                Console.WriteLine("[1] Zobacz tablice");
+                Console.WriteLine("[2] Dodaj wpis\n");
                 Console.WriteLine("[3] Zarzadzaj profilem");
+                Console.WriteLine("[4] Pokaz statystyki");
+
                 Console.Write("Wybor : ");
                 while (!int.TryParse(Console.ReadLine(), out wybor))
                 {
@@ -249,6 +249,7 @@ namespace Projekt_OOP
                     case 1: tablica_Przykladowe(); break;
                     case 2: dodaj_Wpis(); break;
                     case 3: zarzadzaj_Profilem(); break;
+                    case 4: Baza_Danych.Licznik.Pokaz_Statystyki(); break;
                     default: Console.WriteLine("Blad, nie ma takiej opcji!"); break;
                 }
 
@@ -445,7 +446,7 @@ namespace Projekt_OOP
                 default: Console.WriteLine("Nie ma takiej opcji !"); Console.Clear(); zarzadzaj_Profilem(); break;
             }
             Console.WriteLine("Nacisnij dowolny klawisz by wroci do menu  . . ."); Console.ReadKey(); pisz_Menu();
-        } //zmiana danch konta - zrobiona | walidacja pustych pol zrobiona
+        } 
 
         public static void wypisz_Uzytkownikow()
         {
@@ -459,7 +460,7 @@ namespace Projekt_OOP
             }
 
             Console.WriteLine("\nNaciśnij dowolny klawisz, aby wrócić..."); Console.ReadKey(); pisz_Menu();
-        } //Wypisywanie wszystkich zarejestrowanych uzytkownikow - Zrobione | wszystko w liscie z ID itd
+        } 
 
         public static void tablica_Przykladowe()
         {
@@ -491,7 +492,7 @@ namespace Projekt_OOP
         Console.WriteLine("Opinia : Doceniam realizm, ale narracja była nużąca. Wokulski jako bohater mnie nie przekonał, \n\tcałość ciągnie się jak flaki z olejem.");
         Console.WriteLine("----------------------------------------------------------------------------------------");
             tablica_Uzytkownika();
-        } //Przykladowa tablica wpisow - zrobione
+        } 
         public static void tablica_Uzytkownika()
         {
             foreach (var wpis in Baza_Danych.Wszystkie_Pozycje)
@@ -501,7 +502,7 @@ namespace Projekt_OOP
             }
         }
         public static void czekaj_Profil()
-        { System.Threading.Thread.Sleep(2000); Console.Clear(); zarzadzaj_Profilem(); } // czekaj 2s, wyczysc -> zarzadzaj profilem
+        { System.Threading.Thread.Sleep(2000); Console.Clear(); zarzadzaj_Profilem(); } 
         public static void czekaj_Menu()
         {
             Console.Write("Wcisnij dowolny klawisz zeby wrocic do menu . . .");
@@ -526,4 +527,4 @@ namespace Projekt_OOP
             Console.WriteLine($"Opinia: {Baza_Danych.nowy_wpis_k?.opinia_txt?? "brak"}");
         }
     }
-}// koniec namespace
+}
