@@ -12,6 +12,7 @@ namespace Projekt_OOP
     {
         public string Tytul { get; set; } = "";
         public int Rok { get; set; }
+        public string opinia_txt {  get; set; }
         private int ocena;
         public int Ocena {
             get => ocena;
@@ -128,6 +129,8 @@ namespace Projekt_OOP
         public static List<IWypisz> Wszystkie_Pozycje = new List<IWypisz>();
         public static List<Pozycja> Pozycje = new List<Pozycja>();
         public static List<Uzytkownik> Uzytkownicy = new List<Uzytkownik>();
+        public static Film nowy_wpis_f = null;
+        public static Ksiazka nowy_wpis_k = null; 
         public static Uzytkownik Zalogowany_Uzytkownik = null;
     }
 
@@ -187,7 +190,7 @@ namespace Projekt_OOP
                     break;
             }
             Menu.pisz_Menu();
-        }
+        } //zrobione
         public static void pisz_Poczatek()
         {
             Console.Clear();
@@ -205,7 +208,7 @@ namespace Projekt_OOP
             Console.WriteLine("\nWcisnij dowolny klawisz by kontynuowac...");
             Console.ReadKey();
             pisz_Menu();
-        }
+        } //zrobione, mozna lepiej
         public static void pisz_Menu()
         {
             int wybor;
@@ -232,10 +235,11 @@ namespace Projekt_OOP
                 }
 
             } while (wybor != 0);
-        }
+        } //zrobione
         public static void dodaj_Wpis()
         {
-            Console.WriteLine("Dodaj wpis :)");
+            Console.WriteLine("Dodaj swoja opinie !");
+
             Console.ReadKey();
             pisz_Menu();
         }
@@ -348,6 +352,21 @@ namespace Projekt_OOP
             Console.Write("\nWcisnij dowolny klawisz zeby wroci do menu glownego . . . "); Console.ReadKey(); pisz_Menu();
         } //Przykladowa tablica wpisow - zrobione
         public static void czekaj_profil()
-        { System.Threading.Thread.Sleep(2000); Console.Clear(); zarzadzaj_Profilem(); }
+        { System.Threading.Thread.Sleep(2000); Console.Clear(); zarzadzaj_Profilem(); } // czekaj 2s, wyczysc -> zarzadzaj profilem
+
+        public static void wyswietl_edytowany_wpis_film()
+        {
+            var film = Baza_Danych.nowy_wpis_f;
+            Console.WriteLine($"Tytuł : {film?.Tytul?? "Brak"} rez. {film?.Rezyser?? "brak"}");
+            Console.WriteLine($"Czas trwania: {(film?.Godziny > 0 || film?.Minuty > 0 ? $"{film.Godziny}h {film.Minuty}min" : "brak")} " +
+            $"Ocena : {(film?.Ocena > 0 ? $"{film.Ocena}/ 10" : "brak")}");
+            Console.WriteLine($"{film?.opinia_txt?? "brak"}");
+        }
+        public static void wyswietl_edytowany_wpis_ksiazka()
+        {
+            var ksiazka = Baza_Danych.nowy_wpis_k;
+            Console.WriteLine($"Tytuł : {ksiazka?.Tytul?? "brak"}, autor : {ksiazka?.Autor?? "brak"}");
+            //Console.WriteLine($"Liczba stron: {(ksiazka?.Strony > 0 ? ")}");
+        }
     }
 }// koniec namespace
