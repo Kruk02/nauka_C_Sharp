@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Channels;
 namespace Projekt_OOP
 {
     public static class Statystyki
@@ -12,7 +13,7 @@ namespace Projekt_OOP
     {
         public string Tytul { get; set; } = "";
         public int Rok { get; set; }
-        public string opinia_txt {  get; set; }
+        public string opinia_txt { get; set; } = "";
         private int ocena;
         public int Ocena {
             get => ocena;
@@ -43,10 +44,11 @@ namespace Projekt_OOP
         {
             Tytul = tyt; Rok = rok ; Ocena = ocena;
         }
+        public Film() { }
 
         public override void wypisz()
         {
-            Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nRezyser: {Rezyser} \nCzas trwania {Godziny}h {Minuty}min\n Ocena : {Ocena}");
+            Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nRezyser: {Rezyser} \nCzas trwania {Godziny}h {Minuty}min\n Ocena : {Ocena} \n{opinia_txt}");
         }
     }
     public class Ksiazka : Pozycja, IWypisz
@@ -62,10 +64,11 @@ namespace Projekt_OOP
         {
             Tytul = tyt; Ocena = ocena;
         }
+        public Ksiazka() { }
 
         public override void wypisz()
         {
-            Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nAutor: {Autor} \nLiczba stron: {Strony}\n Ocena : {Ocena}");
+            Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nAutor: {Autor} \nLiczba stron: {Strony}\n Ocena : {Ocena} \n{opinia_txt}");
         }
     }
 
@@ -238,7 +241,124 @@ namespace Projekt_OOP
         } //zrobione
         public static void dodaj_Wpis()
         {
+            int wybor_wpis;
+            Console.Clear();
             Console.WriteLine("Dodaj swoja opinie !");
+            Console.WriteLine("Najpierw wybierz czy dodajesz : \n[1] Ksiazke \n[2] Film");
+            Console.Write("Wybor : ");
+            while (!int.TryParse(Console.ReadLine(), out wybor_wpis))
+            {
+                Console.WriteLine("Do wyboru sa same cyfry !");
+                Console.Write("Wybor : ");
+            }
+
+            switch (wybor_wpis)
+            {
+                case 1:
+                    Baza_Danych.nowy_wpis_k = new Ksiazka();
+                    Console.Clear();
+                    Console.WriteLine("Wybrana opcja : Dodaj ksiazke !");
+
+                    wyswietl_edytowany_wpis_ksiazka();
+                    Console.Write("Podaj tytul : ");
+                    Baza_Danych.nowy_wpis_k.Tytul = Console.ReadLine();
+                    Console.Clear();
+
+                    wyswietl_edytowany_wpis_ksiazka();
+                    Console.Write("Podaj autora : ");
+                    Baza_Danych.nowy_wpis_k.Autor = Console.ReadLine();
+                    Console.Clear();
+
+                    wyswietl_edytowany_wpis_ksiazka();
+                    Console.Write("Podaj liczbe stron : ");
+                    int strony;
+                    while (!int.TryParse(Console.ReadLine(), out strony))
+                    {
+                        Console.WriteLine("Liczba stron musi byc liczba !");
+                        Console.Write("Podaj liczbe stron : ");
+                    }
+                    Baza_Danych.nowy_wpis_k.Strony = strony;
+
+                    int ocena_k;
+                    do
+                    {
+                        Console.Clear();
+                        wyswietl_edytowany_wpis_ksiazka();
+                        Console.Write("Podaj swoja ocene (1-10) : ");
+                    } while (!int.TryParse(Console.ReadLine(), out ocena_k) || ocena_k < 1 || ocena_k > 10);
+                    Baza_Danych.nowy_wpis_k.Ocena = ocena_k;
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_ksiazka();
+                    Console.Write("Napisz swoja opinie: ");
+                    Baza_Danych.nowy_wpis_k.opinia_txt = Console.ReadLine();
+                    Console.Clear();
+                    Baza_Danych.Wszystkie_Pozycje.Add(Baza_Danych.nowy_wpis_k);
+
+                    wyswietl_edytowany_wpis_ksiazka();
+                    czekaj_menu();
+
+                    break;
+                case 2:
+                    Baza_Danych.nowy_wpis_f = new Film();
+                    Console.Clear();
+                    Console.WriteLine("Wybrana opcja : Dodaj film !");
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_film();
+                    Console.Write("Podaj tytul : ");
+                    Baza_Danych.nowy_wpis_f.Tytul = Console.ReadLine();
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_film();
+                    Console.Write("Podaj rezysera : ");
+                    Baza_Danych.nowy_wpis_f.Rezyser = Console.ReadLine();
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_film();
+                    Console.Write("Dlugosc, podaj liczbe godzin : ");
+                    int godziny_f;
+                    while (!int.TryParse(Console.ReadLine(), out godziny_f))
+                    {
+                        Console.WriteLine("Liczba godzin musi byc cyfra !");
+                        Console.Write("Dlugosc, podaj liczbe godzin : ");
+                    }
+                    Baza_Danych.nowy_wpis_f.Godziny = godziny_f;
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_film();
+                    Console.Write("Dlugosc, podaj liczbe minut : ");
+                    int minuty_f;
+                    while (!int.TryParse(Console.ReadLine(), out minuty_f))
+                    {
+                        Console.WriteLine("Liczba godzin musi byc cyfra !");
+                        Console.Write("Dlugosc, podaj liczbe godzin : ");
+                    }
+                    Baza_Danych.nowy_wpis_f.Minuty = minuty_f;
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_film();
+                    int ocena_f;
+                    do
+                    {
+                        Console.Clear();
+                        wyswietl_edytowany_wpis_film();
+                        Console.Write("Podaj swoja ocene (1-10) : ");
+                    } while (!int.TryParse(Console.ReadLine(), out ocena_f) || ocena_f < 1 || ocena_f > 10);
+                    Baza_Danych.nowy_wpis_f.Ocena = ocena_f;
+
+                    Console.Clear();
+                    wyswietl_edytowany_wpis_film();
+                    Console.Write("Napisz swoja opinie: ");
+                    Baza_Danych.nowy_wpis_f.opinia_txt = Console.ReadLine();
+                    Console.Clear();
+                    Baza_Danych.Wszystkie_Pozycje.Add(Baza_Danych.nowy_wpis_f);
+
+                    wyswietl_edytowany_wpis_film();
+                    czekaj_menu();
+
+                    break;
+            }
 
             Console.ReadKey();
             pisz_Menu();
@@ -353,20 +473,28 @@ namespace Projekt_OOP
         } //Przykladowa tablica wpisow - zrobione
         public static void czekaj_profil()
         { System.Threading.Thread.Sleep(2000); Console.Clear(); zarzadzaj_Profilem(); } // czekaj 2s, wyczysc -> zarzadzaj profilem
+        public static void czekaj_menu()
+        {
+            Console.Write("Wcisnij dowolny klawisz zeby wrocic do menu . . .");
+            Console.ReadKey();
+            pisz_Menu();
+        }
 
         public static void wyswietl_edytowany_wpis_film()
         {
             var film = Baza_Danych.nowy_wpis_f;
-            Console.WriteLine($"Tytuł : {film?.Tytul?? "Brak"} rez. {film?.Rezyser?? "brak"}");
-            Console.WriteLine($"Czas trwania: {(film?.Godziny > 0 || film?.Minuty > 0 ? $"{film.Godziny}h {film.Minuty}min" : "brak")} " +
-            $"Ocena : {(film?.Ocena > 0 ? $"{film.Ocena}/ 10" : "brak")}");
-            Console.WriteLine($"{film?.opinia_txt?? "brak"}");
+            Console.WriteLine($"Tytuł : {Baza_Danych.nowy_wpis_f?.Tytul?? "Brak"} rez. {Baza_Danych.nowy_wpis_f?.Rezyser?? "brak"}");
+            Console.WriteLine($"Czas trwania: {(Baza_Danych.nowy_wpis_f?.Godziny > 0 || Baza_Danych.nowy_wpis_f?.Minuty > 0 ? $"{Baza_Danych.nowy_wpis_f?.Godziny?? 0}h " +
+                $"{Baza_Danych.nowy_wpis_f?.Minuty?? 0}min" : "brak")} " + $"Ocena: {(Baza_Danych.nowy_wpis_f?.Ocena > 0 ? $"{Baza_Danych.nowy_wpis_f.Ocena}/10" : "brak")}");
+            Console.WriteLine($"Opinia : {Baza_Danych.nowy_wpis_f?.opinia_txt?? "brak"}");
         }
         public static void wyswietl_edytowany_wpis_ksiazka()
         {
             var ksiazka = Baza_Danych.nowy_wpis_k;
-            Console.WriteLine($"Tytuł : {ksiazka?.Tytul?? "brak"}, autor : {ksiazka?.Autor?? "brak"}");
-            //Console.WriteLine($"Liczba stron: {(ksiazka?.Strony > 0 ? ")}");
+            Console.WriteLine($"Tytuł: {Baza_Danych.nowy_wpis_k?.Tytul?? "brak"}, autor: {Baza_Danych.nowy_wpis_k?.Autor?? "brak"}");
+            Console.WriteLine( $"Liczba stron: {(Baza_Danych.nowy_wpis_k?.Strony > 0 ? $"{Baza_Danych.nowy_wpis_k.Strony}" : "brak")} " +
+                $"Ocena: {(Baza_Danych.nowy_wpis_k?.Ocena > 0 ? $"{Baza_Danych.nowy_wpis_k.Ocena}/10" : "brak")}");
+            Console.WriteLine($"Opinia: {Baza_Danych.nowy_wpis_k?.opinia_txt?? "brak"}");
         }
     }
 }// koniec namespace
