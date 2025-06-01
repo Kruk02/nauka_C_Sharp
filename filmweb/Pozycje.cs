@@ -4,6 +4,8 @@ namespace Projekt_OOP
 {
     public static class Statystyki
     {
+        //PIERWSZY COMMIT PRZEZ VS STUDIO
+
         public static int licznik_filmow = 0;
         public static int licznik_ksiazek = 0;
         public static int licznik_uzytkownikow = 0;
