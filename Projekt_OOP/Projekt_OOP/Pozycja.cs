@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Channels;
 namespace Projekt_OOP
 {
     public static class Statystyki
     {
-        public static int licznik_filmow = 0;
-        public static int licznik_ksiazek = 0;
         public static int licznik_uzytkownikow = 0;
     }
     public class Pozycja
@@ -35,6 +31,7 @@ namespace Projekt_OOP
         public string Rezyser { get; set; } = "";
         public int Godziny { get; set; }
         public int Minuty { get; set; }//czas trwania
+        public string autor_Opini { get; set; } = "";
 
         public Film(string tyt, int rok, string rez, int h, int min, int ocena)
         {
@@ -45,16 +42,19 @@ namespace Projekt_OOP
             Tytul = tyt; Rok = rok ; Ocena = ocena;
         }
         public Film() { }
-
         public override void wypisz()
         {
-            Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nRezyser: {Rezyser} \nCzas trwania {Godziny}h {Minuty}min\n Ocena : {Ocena} \n{opinia_txt}");
+            Console.WriteLine($"{autor_Opini}, {Ocena} / 10");
+            Console.WriteLine($"Tytul: {Tytul}, Rezyser: {Rezyser}");
+            Console.WriteLine($"Czas trwania : {Godziny}h {Minuty}min");
+            Console.WriteLine($"Opinia : {opinia_txt}");
         }
     }
     public class Ksiazka : Pozycja, IWypisz
     {
         public string Autor { get; set; } = "";
         public int Strony { get; set; }
+        public string autor_Opini { get; set; } = "";
 
         public Ksiazka(string tyt, int rok, string Autor, int str, int ocena)
         {
@@ -68,7 +68,10 @@ namespace Projekt_OOP
 
         public override void wypisz()
         {
-            Console.WriteLine($"Tytul: {Tytul}\nRok : {Rok} \nAutor: {Autor} \nLiczba stron: {Strony}\n Ocena : {Ocena} \n{opinia_txt}");
+            Console.WriteLine($"{autor_Opini}, {Ocena} / 10");
+            Console.WriteLine($"Tytul: {Tytul}, Autor: {Autor}");
+            Console.WriteLine($"Liczba stron : {Strony}");
+            Console.WriteLine($"Opinia : {opinia_txt}");
         }
     }
 
@@ -125,21 +128,33 @@ namespace Projekt_OOP
         public int ID { get; set; }
 
         public Uzytkownik(){}
-        ~Uzytkownik() { Console.WriteLine("Destruktor uzytkownika"); } //nie potrzebuje go w tym programie, ale dodaje zeby byl 
+        ~Uzytkownik() { Console.WriteLine("Destruktor uzytkownika"); }  
     }
     public static class Baza_Danych
     {
         public static List<IWypisz> Wszystkie_Pozycje = new List<IWypisz>();
-        public static List<Pozycja> Pozycje = new List<Pozycja>();
         public static List<Uzytkownik> Uzytkownicy = new List<Uzytkownik>();
+        public static Licznik_Wpisow Licznik = new Licznik_Wpisow();
         public static Film nowy_wpis_f = null;
-        public static Ksiazka nowy_wpis_k = null; 
+        public static Ksiazka nowy_wpis_k = null;
         public static Uzytkownik Zalogowany_Uzytkownik = null;
     }
 
     public interface IWypisz
     {
         void wypisz();
+    }
+    public struct Licznik_Wpisow
+    {
+        public int Filmy;
+        public int Ksiazki;
+
+        public void Pokaz_Statystyki()
+        {
+            Console.Clear();
+            Console.WriteLine($"Liczba dodanych opini\n Filmow : {Filmy}\n Ksiazek : {Ksiazki}");
+            Menu.czekaj_Menu();
+        }
     }
 
     //Funkcje
@@ -231,7 +246,7 @@ namespace Projekt_OOP
 
                 switch (wybor)
                 {
-                    case 1: tablica_przykladowe(); break;
+                    case 1: tablica_Przykladowe(); break;
                     case 2: dodaj_Wpis(); break;
                     case 3: zarzadzaj_Profilem(); break;
                     default: Console.WriteLine("Blad, nie ma takiej opcji!"); break;
@@ -256,6 +271,7 @@ namespace Projekt_OOP
             {
                 case 1:
                     Baza_Danych.nowy_wpis_k = new Ksiazka();
+                    Baza_Danych.nowy_wpis_k.autor_Opini = Baza_Danych.Zalogowany_Uzytkownik.Login;
                     Console.Clear();
                     Console.WriteLine("Wybrana opcja : Dodaj ksiazke !");
 
@@ -296,11 +312,14 @@ namespace Projekt_OOP
                     Baza_Danych.Wszystkie_Pozycje.Add(Baza_Danych.nowy_wpis_k);
 
                     wyswietl_edytowany_wpis_ksiazka();
-                    czekaj_menu();
+                    Baza_Danych.Licznik.Ksiazki++;
+                    Console.WriteLine("Twoj wpis pojawil sie na tablicy ([1] w menu) ");
+                    czekaj_Menu();
 
                     break;
                 case 2:
                     Baza_Danych.nowy_wpis_f = new Film();
+                    Baza_Danych.nowy_wpis_f.autor_Opini = Baza_Danych.Zalogowany_Uzytkownik.Login;
                     Console.Clear();
                     Console.WriteLine("Wybrana opcja : Dodaj film !");
 
@@ -329,10 +348,10 @@ namespace Projekt_OOP
                     wyswietl_edytowany_wpis_film();
                     Console.Write("Dlugosc, podaj liczbe minut : ");
                     int minuty_f;
-                    while (!int.TryParse(Console.ReadLine(), out minuty_f))
+                    while (!int.TryParse(Console.ReadLine(), out minuty_f) || minuty_f < 1 || minuty_f > 59)
                     {
-                        Console.WriteLine("Liczba godzin musi byc cyfra !");
-                        Console.Write("Dlugosc, podaj liczbe godzin : ");
+                        Console.WriteLine("maksymalna ilosc minut to 59 !");
+                        Console.Write("Dlugosc, podaj liczbe minut : ");
                     }
                     Baza_Danych.nowy_wpis_f.Minuty = minuty_f;
 
@@ -355,7 +374,9 @@ namespace Projekt_OOP
                     Baza_Danych.Wszystkie_Pozycje.Add(Baza_Danych.nowy_wpis_f);
 
                     wyswietl_edytowany_wpis_film();
-                    czekaj_menu();
+                    Baza_Danych.Licznik.Filmy++;
+                    Console.WriteLine("\nTwoj wpis pojawil sie na tablicy ([1] w menu) \n");
+                    czekaj_Menu();
 
                     break;
             }
@@ -386,11 +407,11 @@ namespace Projekt_OOP
                     Console.Write("Wpisz swoje nowe imie : "); string nowe1 = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(nowe1))
                     {
-                        Console.WriteLine("Imie nie moze byc puste!"); czekaj_profil();
+                        Console.WriteLine("Imie nie moze byc puste!"); czekaj_Profil();
                     }
                     else
                     {
-                        Baza_Danych.Zalogowany_Uzytkownik.Imie = nowe1; Console.WriteLine("Zmieniono pomyslnie !"); czekaj_profil();
+                        Baza_Danych.Zalogowany_Uzytkownik.Imie = nowe1; Console.WriteLine("Zmieniono pomyslnie !"); czekaj_Profil();
                     }
                     break;
 
@@ -398,26 +419,26 @@ namespace Projekt_OOP
                     Console.Write("Wpisz swoje nowe Nazwisko : "); string nowe2 = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(nowe2))
                     {
-                        Console.WriteLine("Nazwisko nie moze byc puste!"); czekaj_profil();
+                        Console.WriteLine("Nazwisko nie moze byc puste!"); czekaj_Profil();
                     }
                     else
                     {
-                        Baza_Danych.Zalogowany_Uzytkownik.Nazwisko = nowe2; Console.WriteLine("Zmieniono pomyslnie !"); czekaj_profil();
+                        Baza_Danych.Zalogowany_Uzytkownik.Nazwisko = nowe2; Console.WriteLine("Zmieniono pomyslnie !"); czekaj_Profil();
                     }
                     break;
                 case 3:
                     Console.Write("Wpisz swoj nowy login : "); string nowe3 = Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(nowe3))
                     {
-                        Console.WriteLine("Login nie moze byc pusty !"); czekaj_profil();
+                        Console.WriteLine("Login nie moze byc pusty !"); czekaj_Profil();
                     }
                     else
                     {
-                        Baza_Danych.Zalogowany_Uzytkownik.Login = nowe3; Console.WriteLine("Zmieniono pomyslnie !"); czekaj_profil();
+                        Baza_Danych.Zalogowany_Uzytkownik.Login = nowe3; Console.WriteLine("Zmieniono pomyslnie !"); czekaj_Profil();
                     }
                     break; 
                 case 4:
-                    Baza_Danych.Zalogowany_Uzytkownik.zmien_Haslo(); czekaj_profil(); break;
+                    Baza_Danych.Zalogowany_Uzytkownik.zmien_Haslo(); czekaj_Profil(); break;
                 case 8: Console.Clear(); wypisz_Uzytkownikow(); break;
                 case 9: Baza_Danych.Zalogowany_Uzytkownik = null; Console.Clear(); logowanie(); break;
                 case 0: Console.Clear(); Menu.pisz_Menu(); break;
@@ -440,40 +461,48 @@ namespace Projekt_OOP
             Console.WriteLine("\nNaciśnij dowolny klawisz, aby wrócić..."); Console.ReadKey(); pisz_Menu();
         } //Wypisywanie wszystkich zarejestrowanych uzytkownikow - Zrobione | wszystko w liscie z ID itd
 
-        public static void tablica_przykladowe()
+        public static void tablica_Przykladowe()
         {
             //Tablica opini uzytkownikow, symuluje to jak aplikacja moglaby wygladac w rzeczywistosci
             //Wszystkie przyklady, opinie i opisy sa przykładowe
         Console.Clear();
-        Console.WriteLine("User01");
-        Console.WriteLine("Film -> \"Skazani na Shawshank\" rez. Frank Darabont");
-        Console.WriteLine("\tMistrzostwo! Oglądałem z otwartą buzią. Takie filmy powinny być lekturą obowiązkową.");
+        Console.WriteLine("User01, 10 / 10");
+        Console.WriteLine("Tytul : \"Skazani na Shawshank\" Rezyser : Frank Darabont");
+        Console.WriteLine("Opinia : Mistrzostwo! Oglądałem z otwartą buzią. Takie filmy powinny być lekturą obowiązkową.");
             Console.WriteLine("----------------------------------------------------------------------------------------");
-        Console.WriteLine("User02 8/10");
-        Console.WriteLine("Film -> \"Zielona mila\" rez. Frank Darabont");
-        Console.WriteLine("\tPłakałem jak dziecko. Ten film łamie serce i skleja je z powrotem");
+        Console.WriteLine("User02, 8 / 10");
+        Console.WriteLine("Tytul : \"Zielona mila\" Rezyser : Frank Darabont");
+        Console.WriteLine("Opinia : Płakałem jak dziecko. Ten film łamie serce i skleja je z powrotem");
             Console.WriteLine("----------------------------------------------------------------------------------------");
-        Console.WriteLine("User03 4/10");
-        Console.WriteLine("Ksiazka -> \"Dziady cz.III\" - Adam Mickiewicz");
-        Console.WriteLine("\tCiężko przebrnąć. Dużo symboli, odniesień historycznych i mistyki \ntrudno się wczuć, a język momentami nieczytelny.");
+        Console.WriteLine("User03, 4 / 10");
+        Console.WriteLine("Tytul : \"Dziady cz.III\" Autor : Adam Mickiewicz");
+        Console.WriteLine("Opinia : Ciężko przebrnąć. Dużo symboli, odniesień historycznych i mistyki \ntrudno się wczuć, a język momentami nieczytelny.");
             Console.WriteLine("----------------------------------------------------------------------------------------");
-        Console.WriteLine("User04 8/10");
-        Console.WriteLine("Film -> \"Nietykalni\" rez. Olivier Nakache, Éric Toledano");
-        Console.WriteLine("\tŚmiałem się i wzruszałem. Chemia między bohaterami to złoto!");
+        Console.WriteLine("User04, 8 / 10");
+        Console.WriteLine("Tytul : \"Nietykalni\" Rezyser : Olivier Nakache, Éric Toledano");
+        Console.WriteLine("Opinia : Śmiałem się i wzruszałem. Chemia między bohaterami to złoto!");
             Console.WriteLine("----------------------------------------------------------------------------------------");
-        Console.WriteLine("User05 8/10");
-        Console.WriteLine("Film -> \"Ojciec chrzestny\" rez. Francis Ford Coppola");
-        Console.WriteLine("\tTen klimat, ta muzyka... klasyka mafijna, która nigdy się nie zestarzeje.");
+        Console.WriteLine("User05, 8 / 10");
+        Console.WriteLine("Tytul : \"Ojciec chrzestny\" Rezyser: Francis Ford Coppola");
+        Console.WriteLine("Opinia : Ten klimat, ta muzyka... klasyka mafijna, która nigdy się nie zestarzeje.");
             Console.WriteLine("----------------------------------------------------------------------------------------");
-        Console.WriteLine("User06 9/10");
-        Console.WriteLine("Ksiazka -> \"Lalka\" - Boleslaw Prus");
-        Console.WriteLine("\tDoceniam realizm, ale narracja była nużąca. Wokulski jako bohater mnie nie przekonał, \n\tcałość ciągnie się jak flaki z olejem.");
+        Console.WriteLine("User06, 9 / 10");
+        Console.WriteLine("Tytul : \"Lalka\" Autor : Boleslaw Prus");
+        Console.WriteLine("Opinia : Doceniam realizm, ale narracja była nużąca. Wokulski jako bohater mnie nie przekonał, \n\tcałość ciągnie się jak flaki z olejem.");
         Console.WriteLine("----------------------------------------------------------------------------------------");
-            Console.Write("\nWcisnij dowolny klawisz zeby wroci do menu glownego . . . "); Console.ReadKey(); pisz_Menu();
+            tablica_Uzytkownika();
         } //Przykladowa tablica wpisow - zrobione
-        public static void czekaj_profil()
+        public static void tablica_Uzytkownika()
+        {
+            foreach (var wpis in Baza_Danych.Wszystkie_Pozycje)
+            {
+                wpis.wypisz();
+                Console.WriteLine("----------------------------------------------------------------------------------------");
+            }
+        }
+        public static void czekaj_Profil()
         { System.Threading.Thread.Sleep(2000); Console.Clear(); zarzadzaj_Profilem(); } // czekaj 2s, wyczysc -> zarzadzaj profilem
-        public static void czekaj_menu()
+        public static void czekaj_Menu()
         {
             Console.Write("Wcisnij dowolny klawisz zeby wrocic do menu . . .");
             Console.ReadKey();
