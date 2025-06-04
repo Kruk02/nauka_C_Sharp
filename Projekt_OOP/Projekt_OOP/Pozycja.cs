@@ -466,7 +466,6 @@ namespace Projekt_OOP
         {
             //Tablica opini uzytkownikow, symuluje to jak aplikacja moglaby wygladac w rzeczywistosci
             //Wszystkie przyklady, opinie i opisy sa przykładowe
-        Console.Clear();
         Console.WriteLine("User01, 10 / 10");
         Console.WriteLine("Tytul : \"Skazani na Shawshank\" Rezyser : Frank Darabont");
         Console.WriteLine("Opinia : Mistrzostwo! Oglądałem z otwartą buzią. Takie filmy powinny być lekturą obowiązkową.");
@@ -492,6 +491,7 @@ namespace Projekt_OOP
         Console.WriteLine("Opinia : Doceniam realizm, ale narracja była nużąca. Wokulski jako bohater mnie nie przekonał, \n\tcałość ciągnie się jak flaki z olejem.");
         Console.WriteLine("----------------------------------------------------------------------------------------");
             tablica_Uzytkownika();
+            Console.ReadKey();
         } 
         public static void tablica_Uzytkownika()
         {
