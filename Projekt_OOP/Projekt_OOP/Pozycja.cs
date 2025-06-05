@@ -126,7 +126,6 @@ namespace Projekt_OOP
         public int ID { get; set; }
 
         public Uzytkownik(){}
-        ~Uzytkownik() { Console.WriteLine("Destruktor uzytkownika"); }  
     }
     public static class Baza_Danych
     {
@@ -314,7 +313,7 @@ namespace Projekt_OOP
 
                     wyswietl_edytowany_wpis_ksiazka();
                     Baza_Danych.Licznik.Ksiazki++;
-                    Console.WriteLine("Twoj wpis pojawil sie na tablicy ([1] w menu) ");
+                    Console.WriteLine("\nTwoj wpis pojawil sie na tablicy ([1] w menu) ");
                     czekaj_Menu();
 
                     break;
@@ -468,7 +467,7 @@ namespace Projekt_OOP
             //Wszystkie przyklady, opinie i opisy sa przykładowe
         Console.WriteLine("User01, 10 / 10");
         Console.WriteLine("Tytul : \"Skazani na Shawshank\" Rezyser : Frank Darabont");
-        Console.WriteLine("Opinia : Mistrzostwo! Oglądałem z otwartą buzią. Takie filmy powinny być lekturą obowiązkową.");
+        Console.WriteLine("Opinia : Mistrzostwo! Takie filmy powinny być obowiązkowe do obejrzenia!.");
             Console.WriteLine("----------------------------------------------------------------------------------------");
         Console.WriteLine("User02, 8 / 10");
         Console.WriteLine("Tytul : \"Zielona mila\" Rezyser : Frank Darabont");
@@ -513,18 +512,18 @@ namespace Projekt_OOP
         public static void wyswietl_edytowany_wpis_film()
         {
             var film = Baza_Danych.nowy_wpis_f;
-            Console.WriteLine($"Tytuł : {Baza_Danych.nowy_wpis_f?.Tytul?? "Brak"} rez. {Baza_Danych.nowy_wpis_f?.Rezyser?? "brak"}");
+            Console.WriteLine($"Tytuł : {Baza_Danych.nowy_wpis_f?.Tytul?? "......."} \t,rez. {Baza_Danych.nowy_wpis_f?.Rezyser?? "......."}");
             Console.WriteLine($"Czas trwania: {(Baza_Danych.nowy_wpis_f?.Godziny > 0 || Baza_Danych.nowy_wpis_f?.Minuty > 0 ? $"{Baza_Danych.nowy_wpis_f?.Godziny?? 0}h " +
-                $"{Baza_Danych.nowy_wpis_f?.Minuty?? 0}min" : "brak")} " + $"Ocena: {(Baza_Danych.nowy_wpis_f?.Ocena > 0 ? $"{Baza_Danych.nowy_wpis_f.Ocena}/10" : "brak")}");
-            Console.WriteLine($"Opinia : {Baza_Danych.nowy_wpis_f?.opinia_txt?? "brak"}");
+                $"{Baza_Danych.nowy_wpis_f?.Minuty?? 0}min" : ".......")} " + $"Ocena: {(Baza_Danych.nowy_wpis_f?.Ocena > 0 ? $"{Baza_Danych.nowy_wpis_f.Ocena}/10" : ".......")}");
+            Console.WriteLine($"Opinia : {Baza_Danych.nowy_wpis_f?.opinia_txt?? "......."}");
         }
         public static void wyswietl_edytowany_wpis_ksiazka()
         {
             var ksiazka = Baza_Danych.nowy_wpis_k;
-            Console.WriteLine($"Tytuł: {Baza_Danych.nowy_wpis_k?.Tytul?? "brak"}, autor: {Baza_Danych.nowy_wpis_k?.Autor?? "brak"}");
-            Console.WriteLine( $"Liczba stron: {(Baza_Danych.nowy_wpis_k?.Strony > 0 ? $"{Baza_Danych.nowy_wpis_k.Strony}" : "brak")} " +
-                $"Ocena: {(Baza_Danych.nowy_wpis_k?.Ocena > 0 ? $"{Baza_Danych.nowy_wpis_k.Ocena}/10" : "brak")}");
-            Console.WriteLine($"Opinia: {Baza_Danych.nowy_wpis_k?.opinia_txt?? "brak"}");
+            Console.WriteLine($"Tytuł: {Baza_Danych.nowy_wpis_k?.Tytul?? "......."} \t,autor: {Baza_Danych.nowy_wpis_k?.Autor?? "......."}");
+            Console.WriteLine( $"Liczba stron: {(Baza_Danych.nowy_wpis_k?.Strony > 0 ? $"{Baza_Danych.nowy_wpis_k.Strony}" : ".......")} " +
+                $"Ocena: {(Baza_Danych.nowy_wpis_k?.Ocena > 0 ? $"{Baza_Danych.nowy_wpis_k.Ocena}/10" : ".......")}");
+            Console.WriteLine($"Opinia: {Baza_Danych.nowy_wpis_k?.opinia_txt?? "......."}");
         }
     }
 }
