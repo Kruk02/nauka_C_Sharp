@@ -6,6 +6,7 @@ namespace Projekt_OOP
     {
         static void Main()
         {
+            Menu.pisz_Poczatek();
             Menu.logowanie();
         }
     }

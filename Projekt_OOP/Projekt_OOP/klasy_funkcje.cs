@@ -211,18 +211,17 @@ namespace Projekt_OOP
             Console.Clear();
             Console.WriteLine("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@");
             Console.WriteLine("|                                             |");
-            Console.WriteLine("|               NAZWA APLIKACJI               |");
+            Console.WriteLine("|                Zaliczenie OOP               |");
             Console.WriteLine("|                                             |");
             Console.WriteLine("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@");
             Console.WriteLine("|                                             |");
             Console.WriteLine("|    System do oceniania filmow i ksiazek !   |");
-            Console.WriteLine("|    Oceniaj, pisz komentarze i przegladaj    |");
+            Console.WriteLine("|      Oceniaj, pisz opinie i przegladaj      |");
             Console.WriteLine("|         wpisy innych uzytkownikow           |");
             Console.WriteLine("|                                             |");
             Console.WriteLine("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@");
             Console.WriteLine("\nWcisnij dowolny klawisz by kontynuowac...");
             Console.ReadKey();
-            pisz_Menu();
         } 
         public static void pisz_Menu()
         {
@@ -253,7 +252,7 @@ namespace Projekt_OOP
                 }
 
             } while (wybor != 0);
-        } //zrobione
+        } 
         public static void dodaj_Wpis()
         {
             int wybor_wpis;
